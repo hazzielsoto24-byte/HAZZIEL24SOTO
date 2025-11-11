@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paquete de utilidades COBAEJ20 - Equipo CODESTORM</title>
+    <img src="PABLENN.jpg" alt="Logo de Codestorm: Nube con código y un rayo" width="150">
+    <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Logo sin fondo</title><style>body{background-color:#f0f0f0;display:flex;justify-content:center;align-items:center;height:100vh}img{width:200px;height:auto}</style></head><body><img src="logocoba.png" alt="Logo sin fondo"></body></html>
+
+    <style>
+        /* ================================================= */
+        /* === ESTILOS BASE (Ventana Principal) === */
+        /* ================================================= */
+        body {
+            background-color: #121212; /* Fondo más oscuro */
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 450px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        
+        
+        h1 {
+            font-size: 1.8em; /* Título un poco más grande */
+            margin-bottom: 30px;
+            color: #00d4ff; /* Color de título vibrante */
+            text-shadow: 0 0 5px rgba(0, 180, 255, 0.7);
+        }
+
+        /* Estilo de los botones principales MEJORADO */
+        .main-button {
+            width: 100%;
+            padding: 16px; /* Más padding */
+            margin-bottom: 14px;
+            /* Degradado de fondo vibrante */
+            background: linear-gradient(145deg, #0d6efd, #0b5ed7); 
+            color: white;
+            border: none;
+            border-radius: 8px; /* Bordes más redondeados */
+            cursor: pointer;
+            font-size: 1.2em; /* Texto más grande */
+            transition: all 0.25s ease; /* Transiciones más suaves */
+            text-transform: uppercase;
+            font-weight: 700; /* Más audaz */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* Sombra suave y ligera */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3), inset 0 0 5px rgba(255, 255, 255, 0.2); 
+            letter-spacing: 0.5px;
+        }
+        
+        /* Colores específicos para botones funcionales */
+        .btn-tip { background: linear-gradient(145deg, #00b894, #008060); box-shadow: 0 8px 15px rgba(0, 184, 148, 0.2); }
+        .btn-currency { background: linear-gradient(145deg, #ff9f1c, #e77f00); box-shadow: 0 8px 15px rgba(255, 159, 28, 0.2); }
+        .btn-budget { background: linear-gradient(145deg, #6c5ce7, #483cbf); box-shadow: 0 8px 15px rgba(108, 92, 231, 0.2); }
+        .btn-raffle { background: linear-gradient(145deg, #e15f41, #c23616); color: white; box-shadow: 0 8px 15px rgba(225, 95, 65, 0.2); }
+        .btn-grade { background: linear-gradient(145deg, #00cec9, #009692); box-shadow: 0 8px 15px rgba(0, 206, 201, 0.2); }
+        .btn-about { background: linear-gradient(145deg, #747d8c, #596275); box-shadow: 0 8px 15px rgba(116, 125, 140, 0.2); }
+
+        .main-button:hover {
+            transform: translateY(-4px) scale(1.02); /* Más elevado y ligeramente más grande */
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+            filter: brightness(1.1); /* Ligeramente más brillante */
+        }
+        
+        .main-button:active {
+            transform: translateY(0); /* Presionado */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .emoji {
+            font-size: 1.5em; /* Emojis más grandes */
+            margin: 0 10px;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+        }
+
+        /* ================================================= */
+        /* === ESTILOS PARA VENTANAS SECUNDARIAS (MODALS) === */
+        /* ================================================= */
+
+        .modal-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); /* Fondo más oscuro */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-window {
+            background-color: #1e1e1e; /* Fondo oscuro consistente */
+            padding: 30px;
+            border-radius: 12px; /* Más redondeado */
+            box-shadow: 0 0 30px rgba(0, 180, 255, 0.5); /* Sombra azul más pronunciada */
+            border: 1px solid #00d4ff; /* Borde sutil */
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            transform: scale(0.9); /* Inicia ligeramente pequeño */
+            opacity: 0;
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+
+        /* Animación para mostrar el modal */
+        .modal-background[style*="display: flex"] .modal-window {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .modal-window h2 {
+            color: #00d4ff;
+            margin-top: 0;
+            border-bottom: 3px solid #00b894; /* Color de línea distintivo */
+            padding-bottom: 12px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        
+        /* Mejoras en labels */
+        label {
+            display: block;
+            text-align: left;
+            margin: 10px 0 5px 0;
+            color: #a0a0a0;
+            font-size: 0.9em;
+        }
+
+        /* Mejoras en inputs */
+        input[type="text"] {
+            width: 100%; /* Ocupa todo el ancho disponible */
+            padding: 12px;
+            margin: 5px 0 18px 0;
+            border: 2px solid #333;
+            border-radius: 6px;
+            background-color: #2a2a2a; /* Fondo de input */
+            color: #00d4ff; /* Color de texto vibrante */
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 1.05em;
+            transition: border-color 0.3s, background-color 0.3s;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+        }
+        
+        input[type="text"]:focus {
+            border-color: #00d4ff;
+            background-color: #333;
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 180, 255, 0.7);
+        }
+
+        .combobox-placeholder {
+            /* Simulación de Combobox con más estilo */
+            display: block;
+            width: 100%;
+            margin: 5px auto 18px auto;
+            padding: 12px;
+            border: 2px solid #333;
+            border-radius: 6px;
+            background-color: #2a2a2a;
+            color: #747d8c; /* Color de texto deshabilitado */
+            text-align: left;
+            cursor: default;
+        }
+
+        .result-label {
+            margin-top: 25px;
+            padding: 20px;
+            border: 2px dashed #00b894; /* Borde de resultado distintivo */
+            background-color: #121212;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #00ffaa; /* Color de resultado exitoso */
+            font-size: 1.1em;
+            white-space: pre-wrap; /* Para manejar saltos de línea (\n) del JS */
+            box-shadow: 0 0 10px rgba(0, 255, 170, 0.2);
+            display: block;
+        }
+        
+        /* Estilo para los botones de acción dentro del modal */
+        .modal-action-button {
+            /* Hereda la base de main-button pero con menos sombra para no competir */
+            width: 90%;
+            margin: 10px auto;
+            padding: 12px;
+            font-size: 1.1em;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Botones de Cerrar (Rojo Intenso) */
+        .btn-close {
+            background: linear-gradient(145deg, #ff4757, #eb3b5a);
+            box-shadow: 0 4px #c23616;
+            margin-top: 20px;
+            width: 90%;
+            font-weight: 600;
+        }
+        .btn-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px #c23616;
+            filter: brightness(1.1);
+        }
+        .btn-close:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #c23616;
+        }
+
+        /* Botón de Sorteo (Amarillo/Naranja) */
+        .btn-raffle-action {
+            background: linear-gradient(145deg, #ffeaa7, #fab1a0);
+            color: #1e1e1e;
+            box-shadow: 0 4px #e0a800;
+            font-weight: 700;
+        }
+        .btn-raffle-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px #e0a800;
+            filter: brightness(1.1);
+        }
+        .btn-raffle-action:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #e0a800;
+        }
+
+        /* Estilo para la ventana "Acerca de" */
+        .modal-acerca .modal-window {
+            background-color: #121212; 
+            border: 1px solid #747d8c;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-acerca h2 {
+            color: #747d8c; /* Color de información */
+            border-bottom-color: #747d8c;
+        }
+        
+       
+        
+        .integrante-label {
+            text-align: left;
+            margin: 10px 0;
+            padding-left: 15px;
+            border-left: 4px solid #00d4ff; /* Detalle visual */
+            font-size: 1.05em;
+        }
+        .integrante-label strong {
+            color: #00d4ff; /* Nombre del integrante en color */
+        }
+
+        /* Botón Entendido/Cerrar en Acerca de (Verde) */
+        .btn-acerca-close {
+            background: linear-gradient(145deg, #2ecc71, #27ae60);
+            box-shadow: 0 4px #1e7e34;
+            width: 70%;
+            margin-top: 30px;
+        }
+        .btn-acerca-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px #1e7e34;
+        }
+        .btn-acerca-close:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #1e7e34;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main-container">
+    
+
+        <h1>Paquete de utilidades CODESTORM</h1>
+        
+        <button class="main-button btn-tip" onclick="document.getElementById('modalPropina').style.display = 'flex'">
+            <span class="emoji">💰</span>
+            <span class="text">Calculadora de Propina</span>
+            <span class="emoji">🍽️</span>
+        </button>
+        <button class="main-button btn-currency" onclick="document.getElementById('modalDivisas').style.display = 'flex'">
+            <span class="emoji">💵</span>
+            <span class="text">Conversor de Divisas</span>
+            <span class="emoji">💶</span>
+        </button>
+        <button class="main-button btn-budget" onclick="document.getElementById('modalPresupuesto').style.display = 'flex'">
+            <span class="emoji">📊</span>
+            <span class="text">Control de Presupuesto</span>
+            <span class="emoji">🧾</span>
+        </button>
+        <button class="main-button btn-raffle" onclick="document.getElementById('modalSorteo').style.display = 'flex'">
+            <span class="emoji">🎟️</span>
+            <span class="text">Sorteo Aleatorio</span>
+            <span class="emoji">🎉</span>
+        </button>
+        <button class="main-button btn-grade" onclick="document.getElementById('modalCalificacion').style.display = 'flex'">
+            <span class="emoji">💯</span>
+            <span class="text">Calificación final</span>
+            <span class="emoji">🎓</span>
+        </button>
+        <button class="main-button btn-about" onclick="document.getElementById('modalAcerca').style.display = 'flex'">
+            <span class="emoji">ℹ️</span>
+            <span class="text">Acerca de CODESTORM</span>
+            <span class="emoji">🛠️</span>
+        </button>
+    </div>
+
+    <div id="modalPropina" class="modal-background" onclick="this.style.display='none'">
+        <div class="modal-window" onclick="event.stopPropagation()">
+            <h2>Calculadora de Propina 💰</h2>
+            <label>Total consumido:</label>
+            <input type="text" placeholder="Escribe el total. Ej: 550.00">
+            <button class="main-button modal-action-button btn-tip" onclick="calcularPropina()">Calcular Propina</button>
+            <span class="result-label">Propina aparecerá aquí...</span>
+            <button class="main-button btn-close" onclick="document.getElementById('modalPropina').style.display = 'none'">Cerrar</button>
+        </div>
+    </div>
+
+    <div id="modalDivisas" class="modal-background" onclick="this.style.display='none'">
+        <div class="modal-window" onclick="event.stopPropagation()">
+            <h2>Conversor de Divisas 💵/💶</h2>
+            <label>Cantidad a convertir:</label>
+            <input type="text" placeholder="Ej: 100.00">
+            <label>Tipo de cambio (ej: 18.50):</label>
+            <input type="text" placeholder="Valor de un dólar en pesos">
+            <label>Dirección de conversión (Simulación):</label>
+            <div class="combobox-placeholder">Selecciona: Pesos a Dólares o Dólares a Pesos</div>
+            <button class="main-button modal-action-button btn-currency" onclick="realizarConversion()">Realizar Conversión</button>
+            <span class="result-label">Resultado de la conversión...</span>
+            <button class="main-button btn-close" onclick="document.getElementById('modalDivisas').style.display = 'none'">Cerrar</button>
+        </div>
+    </div>
+
+    <div id="modalPresupuesto" class="modal-background" onclick="this.style.display='none'">
+        <div class="modal-window" onclick="event.stopPropagation()">
+            <h2>Control de Presupuesto 📊</h2>
+            <label>Dinero total disponible:</label>
+            <input type="text" placeholder="Ej: 5000">
+            <label>Gastos (separados por coma. Ej: 100,20,50):</label>
+            <input type="text" placeholder="Gastos diarios o de la semana">
+            <button class="main-button modal-action-button btn-budget" onclick="revisarPresupuesto()">Revisar Presupuesto</button>
+            <span class="result-label">Estado del presupuesto...</span>
+            <button class="main-button btn-close" onclick="document.getElementById('modalPresupuesto').style.display = 'none'">Cerrar</button>
+        </div>
+    </div>
+
+    <div id="modalSorteo" class="modal-background" onclick="this.style.display='none'">
+        <div class="modal-window" onclick="event.stopPropagation()">
+            <h2>Selección Aleatoria 🎉</h2>
+            <label>Números de boletos vendidos (separados por coma):</label>
+            <input type="text" placeholder="Ej: 1,5,10,15,20,25">
+            <button class="main-button modal-action-button btn-raffle-action" onclick="sortearGanador()">¡Sortear Ganador!</button>
+            <span class="result-label">El número ganador es...</span>
+            <button class="main-button btn-close" onclick="document.getElementById('modalSorteo').style.display = 'none'">Cerrar</button>
+        </div>
+    </div>
+
+    <div id="modalCalificacion" class="modal-background" onclick="this.style.display='none'">
+        <div class="modal-window" onclick="event.stopPropagation()">
+            <h2>Cálculo de Calificación 🎓</h2>
+            <label>Puntuación Parcial 1:</label>
+            <input type="text" placeholder="0 - 100">
+            <label>Puntuación Parcial 2:</label>
+            <input type="text" placeholder="0 - 100">
+            <label>Puntuación Parcial 3:</label>
+            <input type="text" placeholder="0 - 100">
+            <label>Puntuación Examen (40%):</label>
+            <input type="text" placeholder="0 - 100">
+            <button class="main-button modal-action-button btn-grade" onclick="calcularNotaFinal()">Calcular Nota Final</button>
+            <span class="result-label">Calificación final / Necesario en Extra...</span>
+            <button class="main-button btn-close" onclick="document.getElementById('modalCalificacion').style.display = 'none'">Cerrar</button>
+        </div>
+    </div>
+
+    <div id="modalAcerca" class="modal-background modal-acerca" onclick="this.style.display='none'">
+        <div class="modal-window" onclick="event.stopPropagation()">
+            <img src="logocoba.jpg" alt="Emblema del equipo CODESTORM" class="logo-codestorm-about">
+            
+            <h2 style="margin-top: 0;">Equipo CODESTORM 🛠️</h2>
+            
+            <div style="text-align: left; padding: 10px 0;">
+                <p class="integrante-label">⚡ <strong>HAZZIEL SOTO</strong> - Interfaz y pruebas</p>
+                <p class="integrante-label">💡 <strong>ALDO YERENA</strong> - Lógica de divisas y sorteo</p>
+                <p class="integrante-label">📚 <strong>JHONATAN BECERRA</strong> - Ventana acerca de y documentación</p>
+            </div>
+
+            <button class="main-button btn-acerca-close" onclick="document.getElementById('modalAcerca').style.display = 'none'">Entendido</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Helper function to display results in a modal ---
+        function displayResult(modalId, message) {
+            const modal = document.getElementById(modalId);
+            const resultLabel = modal.querySelector('.result-label');
+            
+            if (resultLabel) {
+                resultLabel.textContent = message;
+            }
+        }
+
+        // --- Helper to safely parse a float ---
+        function getFloatValue(modalId, inputIndex) {
+            const modal = document.getElementById(modalId);
+            const input = modal.querySelectorAll('input[type="text"]')[inputIndex];
+            const value = parseFloat(input.value.trim());
+
+            if (isNaN(value) || input.value.trim() === "") {
+                displayResult(modalId, "ERROR: Introduce un valor numérico válido.");
+                return null;
+            }
+            return value;
+        }
+
+        // =================================================================
+        // === CORE LOGIC FUNCTIONS (Manteniendo la funcionalidad anterior) ===
+        // =================================================================
+
+        /** 1. Propina (Tip) Calculator */
+        function calcularPropina() {
+            const totalConsumido = getFloatValue('modalPropina', 0);
+            if (totalConsumido === null) return;
+
+            const propina = totalConsumido * 0.15; // 15%
+            const totalPagar = totalConsumido + propina;
+
+            const result = `Propina (15%): $${propina.toFixed(2)}\nTotal a pagar: $${totalPagar.toFixed(2)}`;
+            displayResult('modalPropina', result);
+        }
+
+        /** 2. Divisas (Currency) Converter */
+        function realizarConversion() {
+            const cantidad = getFloatValue('modalDivisas', 0);
+            const tipoCambio = getFloatValue('modalDivisas', 1);
+
+            if (cantidad === null || tipoCambio === null) return;
+
+            // Simulamos Dólares a Pesos (USD to MXN)
+            const resultado = cantidad * tipoCambio;
+            const resultMessage = `$${cantidad.toFixed(2)} USD (asumiendo) = $${resultado.toFixed(2)} MXN`;
+            
+            displayResult('modalDivisas', resultMessage);
+        }
+
+        /** 3. Control de Presupuesto (Budget Control) */
+        function revisarPresupuesto() {
+            const modalId = 'modalPresupuesto';
+            const disponible = getFloatValue(modalId, 0);
+            const gastosInput = document.getElementById(modalId).querySelectorAll('input[type="text"]')[1].value.trim();
+
+            if (disponible === null) return;
+            
+            const gastosArray = gastosInput
+                .split(',')
+                .map(s => parseFloat(s.trim()))
+                .filter(n => !isNaN(n));
+
+            if (gastosArray.length === 0 && gastosInput.length > 0) {
+                 displayResult(modalId, "ERROR: Los gastos deben ser números separados por comas.");
+                 return;
+            }
+
+            const totalGastado = gastosArray.reduce((sum, current) => sum + current, 0);
+            const restante = disponible - totalGastado;
+            
+            let result;
+            if (restante >= 0) {
+                result = `Gasto total: $${totalGastado.toFixed(2)}\nTe sobran: $${restante.toFixed(2)}\n¡Presupuesto SANO!`;
+            } else {
+                result = `Gasto total: $${totalGastado.toFixed(2)}\nTe faltan: $${Math.abs(restante).toFixed(2)}\n¡ALERTA de GASTO EXCESIVO!`;
+            }
+
+            displayResult(modalId, result);
+        }
+
+        /** 4. Sorteo (Raffle) Selector */
+        function sortearGanador() {
+            const modalId = 'modalSorteo';
+            const boletosInput = document.getElementById(modalId).querySelectorAll('input[type="text"]')[0].value.trim();
+            
+            const boletosArray = boletosInput
+                .split(',')
+                .map(s => s.trim())
+                .filter(s => s.length > 0);
+
+            if (boletosArray.length === 0) {
+                displayResult(modalId, "ERROR: Introduce al menos un número de boleto.");
+                return;
+            }
+            
+            const randomIndex = Math.floor(Math.random() * boletosArray.length);
+            const ganador = boletosArray[randomIndex];
+
+            const result = `De ${boletosArray.length} boletos, ¡el ganador es el número: ${ganador}!`;
+            displayResult(modalId, result);
+        }
+
+        /** 5. Calificación Final (Final Grade) Calculator */
+        function calcularNotaFinal() {
+            const modalId = 'modalCalificacion';
+            const parcial1 = getFloatValue(modalId, 0);
+            const parcial2 = getFloatValue(modalId, 1);
+            const parcial3 = getFloatValue(modalId, 2);
+            const examen = getFloatValue(modalId, 3);
+            
+            if (parcial1 === null || parcial2 === null || parcial3 === null || examen === null) return;
+
+            // Asumiendo: Parciales 20% c/u (60%) y Examen 40%.
+            const pesoParcialUnitario = 0.20; 
+            const pesoExamen = 0.40;
+
+            const promedioParciales = (parcial1 + parcial2 + parcial3) / 3;
+            const contribucionTotalParciales = promedioParciales * (pesoParcialUnitario * 3);
+            const contribucionExamen = examen * pesoExamen;
+            
+            const notaFinal = contribucionTotalParciales + contribucionExamen;
+            
+            let result;
+
+            if (notaFinal >= 70) {
+                result = `¡Aprobado!\nCalificación Final: ${notaFinal.toFixed(2)}`;
+            } else {
+                // Cálculo simplificado de cuánto te falta para el 70% total (no es nota extra)
+                const notaFaltante = 70 - notaFinal;
+                result = `Reprobado. Calificación: ${notaFinal.toFixed(2)}\nNecesitas mejorar tu promedio o un extraordinario.`;
+            }
+
+            displayResult(modalId, result);
+        }
+    </script>
+</body>
+</html>
